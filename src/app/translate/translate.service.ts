@@ -1,21 +1,23 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Dictionary, Lang } from './dictionary';
 
-export const DEFAULT_LANG = new InjectionToken<Lang>('DEFAULT_LANG');
-
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TranslateService {
   readonly lang$ = new ReplaySubject<Lang>(1);
   readonly dictionary$ = this.lang$.pipe(
     distinctUntilChanged(),
-    switchMap<Lang, Dictionary>(lang => import(`./dictionary.${lang}`)
+    switchMap<Lang, Dictionary>(lang => import(`./dictionary/${lang}`)
       .then(({ dictionary }) => dictionary))
   );
+  readonly availableLanguages: ReadonlyArray<Lang> = ['en', 'ja', 'de'];
 
-  constructor(@Inject(DEFAULT_LANG) private readonly defaultLang: Lang = 'en') {
-    this.lang$.next(this.defaultLang);
+  constructor() {
+    const index = this.availableLanguages.indexOf(navigator.language as any);
+    this.lang$.next(this.availableLanguages[index] || 'en');
   }
 }
 

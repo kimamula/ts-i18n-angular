@@ -1,8 +1,8 @@
 # TsI18nAngular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
-Visit https://stackblitz.com/edit/angular-bi1c3y to see how this app look like.
+Visit https://stackblitz.com/edit/angular-rwuzwv to see how this app look like.
 
 ## Development server
 
